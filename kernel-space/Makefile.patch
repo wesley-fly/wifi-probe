@@ -1,0 +1,12 @@
+diff -ru compat-wireless-2016-01-10/net/mac80211/Makefile compat-wireless-2016-01-10-mod/net/mac80211/Makefile
+--- compat-wireless-2016-01-10/net/mac80211/Makefile	2019-07-18 17:43:35.001545807 +0800
++++ compat-wireless-2016-01-10-mod/net/mac80211/Makefile	2019-07-18 11:07:22.174989329 +0800
+@@ -21,6 +21,7 @@
+ 	ethtool.o \
+ 	rx.o \
+ 	spectmgmt.o \
++	probe_nl.o \
+ 	tx.o \
+ 	key.o \
+ 	util.o \
+
