@@ -1,5 +1,5 @@
-使用方法：
-- 加入rx.c的patch文件，用于搜集客户端信息；
-- net/mac80211/下添加probe_nl.c和probe_nl.h；
-- net/mac80211/main.c添加probe_nl的注册；
-- Makefile添加编译probe_nl模块；
+HowTo:
+- patch rx.x.patch file to net/mac80211/rx.c
+- add probe_nl.c and probe_nl.h to net/mac80211/ dirs
+- patch main.c.patch to net/mac80211/main.c, add probe_nl register
+- patch Makefile.patch to net/mac80211/Makefile, add build probe_nl module
