@@ -11,16 +11,13 @@
 #include <sys/wait.h>
 #include <net/if.h>
 #include <stdarg.h>
-
 #include "genl-lib.h"
-
 
 struct {
 	time_t cur_time;
 	unsigned char addr[6];
 	char signal;
 } kernel_sended_mac_list[MAX_PROBED_NUM];
-
 
 int format_mac_info(void)
 {
@@ -43,7 +40,7 @@ void send_json_by_mosquitto(void)
 {
 	printf("kernel_sended_pre_time = %d\n\n",kernel_sended_pre_time);
 	if(kernel_sended_pre_time == 0)
-		return;
+	return;
 
 	int i;
 	json_object *pData = json_object_new_array();
@@ -59,8 +56,8 @@ void send_json_by_mosquitto(void)
 		localtime_r(&kernel_sended_mac_list[i].cur_time, &tm_fr);
 		strftime(fr_t,sizeof(fr_t),"%Y-%m-%d %H:%M:%S",&tm_fr);
 		sprintf(pmac,"%02X:%02X:%02X:%02X:%02X:%02X",
-			kernel_sended_mac_list[i].addr[0],kernel_sended_mac_list[i].addr[1],kernel_sended_mac_list[i].addr[2],
-			kernel_sended_mac_list[i].addr[3],kernel_sended_mac_list[i].addr[4],kernel_sended_mac_list[i].addr[5]);
+		kernel_sended_mac_list[i].addr[0],kernel_sended_mac_list[i].addr[1],kernel_sended_mac_list[i].addr[2],
+		kernel_sended_mac_list[i].addr[3],kernel_sended_mac_list[i].addr[4],kernel_sended_mac_list[i].addr[5]);
 		sprintf(signal,"%d",kernel_sended_mac_list[i].signal);
 
 		json_object_object_add(jvalue,"signal",json_object_new_string(signal));
@@ -81,19 +78,19 @@ void send_json_by_mosquitto(void)
 int main()
 {
 	memset(kernel_sended_mac_list,0,sizeof(kernel_sended_mac_list));
-	
-	int sock_fd;
-  sock_fd = genl_socket_init();
-  if(sock_fd < 0){
-    printf("create_nl_socket create failure\n");
-    return 0;
-  }
 
-  int family_id = genl_get_family_id(sock_fd, "ProbeMacList");
-	
+	int sock_fd;
+	sock_fd = genl_socket_init();
+	if(sock_fd < 0){
+		printf("create_nl_socket create failure\n");
+		return 0;
+	}
+
+	int family_id = genl_get_family_id(sock_fd, "ProbeMacList");
+
 	for(;;){
 		genl_send_msg(sock_fd, family_id, DOC_EXMPL_C_ECHO, DOC_EXMPL_A_MSG, "s");
-    genl_rcv_msg(family_id,sock_fd);
+		genl_rcv_msg(family_id,sock_fd);
 		format_mac_info();
 		send_json_by_mosquitto();
 		sleep(5);

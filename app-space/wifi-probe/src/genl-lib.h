@@ -46,5 +46,4 @@ void genl_rcv_msg(int family_id, int sock_fd);
 extern unsigned char kernel_sended_pre_time;
 extern unsigned char kernel_sended_info[MAX_PROBED_NUM][PROBED_INFO];
 
-
 #endif

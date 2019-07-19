@@ -2,5 +2,5 @@
 
 GW_MAC=`ifconfig | grep br-lan | awk '{print $5}' | awk -F: '{print $1 $2 $3 $4 $5 $6}'`
 echo $1
-mosquitto_pub -d -h x.x.x.x -p 11883 -t HP600N-GW/UP/$GW_MAC -f $1
+mosquitto_pub -d -h x.x.x.x -p 11883 -t HP600N-GW/UP/$GW_MAC -u giot -P 1q2w3e4r -f $1
 
