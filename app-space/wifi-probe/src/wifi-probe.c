@@ -71,14 +71,20 @@ void send_json_by_mosquitto(void)
 	const char *pJsonStr = json_object_get_string(pRespObj);
 	printf("------------\n%s\n------------\n\n",pJsonStr);
 	char cmdstring[200*64] = {0};
-	sprintf(cmdstring, "echo \'%s\' > /tmp/tb-report && /bin/sh /usr/sbin/wifi-report /tmp/tb-report", pJsonStr);
+	sprintf(cmdstring, "echo \'%s\' > /tmp/tb-report", pJsonStr);
 	system(cmdstring);
+	system("/bin/sh /usr/sbin/wifi-report /tmp/tb-report && rm -rf /tmp/tb-report");
+
 	return;
+}
+void init_golbal_params(void)
+{
+	kernel_sended_pre_time = 0;
+	memset(kernel_sended_mac_list,0,sizeof(kernel_sended_mac_list));
+	memset(kernel_sended_info,0,sizeof(kernel_sended_info));
 }
 int main()
 {
-	memset(kernel_sended_mac_list,0,sizeof(kernel_sended_mac_list));
-
 	int sock_fd;
 	sock_fd = genl_socket_init();
 	if(sock_fd < 0){
@@ -89,6 +95,7 @@ int main()
 	int family_id = genl_get_family_id(sock_fd, "ProbeMacList");
 
 	for(;;){
+		init_golbal_params();
 		genl_send_msg(sock_fd, family_id, DOC_EXMPL_C_ECHO, DOC_EXMPL_A_MSG, "s");
 		genl_rcv_msg(family_id,sock_fd);
 		format_mac_info();
