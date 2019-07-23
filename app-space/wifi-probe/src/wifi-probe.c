@@ -71,7 +71,7 @@ void send_json_by_mosquitto(void)
 	const char *pJsonStr = json_object_get_string(pRespObj);
 	printf("------------\n%s\n------------\n\n",pJsonStr);
 	char cmdstring[200*64] = {0};
-	sprintf(cmdstring, "echo %s > /tmp/tb-report && /bin/sh /usr/sbin/wifi-report /tmp/tb-report && rm -rf /tmp/tb-report", pJsonStr);
+	sprintf(cmdstring, "echo \'%s\' > /tmp/tb-report && /bin/sh /usr/sbin/wifi-report /tmp/tb-report", pJsonStr);
 	system(cmdstring);
 	return;
 }
